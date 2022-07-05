@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  flask_aio:
+    # build: ./src
+    image: flask_aio:1.0
+    ports:
+      - 5000:5000
+    # depends_on:
+    #   - redis
+    env_file:
+      - .env

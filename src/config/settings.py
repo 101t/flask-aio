@@ -1,6 +1,8 @@
 """Flask AIO"""
 import os
 from flask import Flask, request, jsonify
+from main.core import core_views
+from version import __VERSION__
 import traceback  # error traceback
 from werkzeug.exceptions import default_exceptions  # exception handling
 from werkzeug.exceptions import HTTPException  # exception handling
@@ -13,8 +15,9 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 class FlaskConfigBase(object):
-    DEBUG = bool(int(os.environ.get('DEBUG', default='1')))
-    CSRF_ENABLED = False
+    VERSION = __VERSION__
+    DEBUG = bool(os.environ.get('DEBUG', default=True))
+    CSRF_ENABLED = bool(os.environ.get('CSRF_ENABLED', default=False))
     SECRET_KEY = os.environ.get('SECRET_KEY', default='my-secret-key')
     HOST = os.environ.get("HOST", default="0.0.0.0")
     PORT = os.environ.get('PORT', default="5000")
@@ -38,7 +41,7 @@ def initialize_app(config="config.settings.FlaskConfigPro"):
     app.config.from_object(obj=config)
 
     # register blueprints
-    # app.register_blueprint()
+    app.register_blueprint(core_views)
 
     # better exception handling
     @app.errorhandler(Exception)
