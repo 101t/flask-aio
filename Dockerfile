@@ -6,13 +6,11 @@ COPY requirements.txt .
 
 RUN pip install --user -r requirements.txt
 
-# FROM python:3.8-alpine
+FROM python:3.8-alpine
 
 WORKDIR /app
 
-# COPY --from=b /root/.local /root/.local
-
-# EXPOSE 5000
+COPY --from=b /root/.local /root/.local
 
 COPY src/ .
 
